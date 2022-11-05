@@ -1,14 +1,14 @@
-# import mysql.connector
-# import yaml  # a PyYAML module
-# import time
-# import lms.log as ls
 
 import lms.sql_util
 import lms.menu
+# import getpass
 
 i = 0
 
 # ------Login-------
+# lms.log.log_initiator()
+# lms.log.logit("Login Started")
+
 
 while i < 3:
     ask_name = input("Enter your name ").title().strip()
@@ -19,10 +19,12 @@ while i < 3:
         print(" Invalid user, wrong password or name\nplease try again or register as a new user")
         i += 1
         print(f"you have {3 - i if 3 - i != 0 else exit()} tries")
-
+        # lms.log.logit(message='Login Failed')
     else:
         break
-        
+
+
+# lms.log.logit(message='Logged in!')
 
 # Body of the program
 # noinspection PyUnboundLocalVariable
@@ -43,7 +45,7 @@ while True:
 
         if search_options in ['isbn', '1']:
             # searching the book using the books ISBN
-            ask_isbn = input("Enter the ISBN number of the program")
+            ask_isbn = input("Enter the ISBN number of the book ")
             # filtering the input
             if ask_isbn.isnumeric():
                 lms.sql_util.search_on_isbn(ask_isbn)
@@ -59,7 +61,7 @@ while True:
 
         elif search_options in ['name', 'book name', '3']:
             # searching using the books name
-            ask_title = input("Enter the Title of the book(please not it is case sensitive) ").strip()
+            ask_title = input("Enter the Title of the book ").strip()
 
             lms.sql_util.search_on_title(ask_title)
 
@@ -80,9 +82,11 @@ while True:
         lms.menu.helpme()
 
     elif ask_option in ['explore', '4']:
-        pass
+        # explore for the library books
 
-    elif ask_option in ['exit', 'quit', '5']:
+        lms.sql_util.explore()
+
+    elif ask_option in ['exit', 'quit', '5', 'close']:
         print("Exiting the program")
         exit()
 
