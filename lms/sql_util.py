@@ -4,10 +4,12 @@ mysql user credentials
 import os
 import yaml
 import mysql.connector
+import random
 
 USER_TABLE = 'lms_users'
 BOOKS_TABLE = 'books'
 DEBUG_TABLE = 'test_books'
+ISSUE_TABLE = 'issue_list'
 
 
 def main_cnx(user_id='user'):
@@ -120,14 +122,17 @@ def search_on_title(book_name: str):
 
     cnx = main_cnx()
     cursor = cnx.cursor()
-    cursor.execute(f"SELECT book_name, published, author from {BOOKS_TABLE} where book_name = {book_name!r}")
+    cursor.execute(f"SELECT book_name, published, author from {BOOKS_TABLE} where book_name like {book_name+'%'!r}")
     data = cursor.fetchall()
     if data:
         print("Found")
         for books in data:
             print(f"{books[0]:40} {books[1]}, by {books[2]}")
+
+        return True
     else:
         print(f"Not Found with title {book_name!r}")
+        return False
 
 
 def add_books(verify_user):
@@ -165,3 +170,79 @@ def add_books(verify_user):
             except (mysql.connector.errors.DatabaseError, mysql.connector.errors.InterfaceError):
                 print(f" {'*'*9}SORRY! there was an error, sorry for the inconvenience {'*'*9}")
                 print(f"{'*'*9}Please enter a number value for the publishing year{'*'*9}")
+
+
+def book_issue_updater():
+    """
+    function for making updates to the issue database
+    :return:
+    """
+
+    # cnx = main_cnx()
+    # cursor = cnx.cursor()
+
+    ask_book = input("Enter the book to update its issue record ")
+    var = search_on_title(ask_book)
+
+    if var:
+        pass
+    # update the database using suitable details
+
+
+def book_issue_maker():
+    """
+    making the book issue entry into the database
+    :return:
+    """
+    cnx = main_cnx()
+    cursor = cnx.cursor()
+
+    ask_issue_book = input("Enter the issue book ")
+    value = search_on_title(ask_issue_book)
+    ask_add = input(f"Add {ask_issue_book!r} to issue list")
+    if value and ask_add in ['yes', 'y', 'yep']:
+        cursor.execute("")
+    else:
+        print(f'issue addition aborted for the book {ask_issue_book}')
+
+
+def explore():
+    """
+    exploring the data
+    :return:
+    """
+
+    cnx = main_cnx()
+
+    cursor = cnx.cursor()
+
+    # getting data for the author
+    cursor.execute(f"select author from {BOOKS_TABLE}")
+    author = cursor.fetchall()
+
+    # getting the number of books in the database
+    cursor.execute(f'select count(*) from {BOOKS_TABLE}')
+    times = cursor.fetchall()
+
+    # getting the old books in database
+    cursor.execute(f'select book_name, author from {BOOKS_TABLE} where published < 2000 ')
+    old = cursor.fetchall()
+
+    # processing the retried values
+    classic_time = random.randint(0, len(old) - 1)
+    random_author = author[random.randint(0, len(author) - 1)][0]
+    classic_book = old[classic_time][0]
+    classic_author = old[classic_time][1]
+    total_books = times[0][0]
+
+    print(fr"""
+    +{'-' * 30}LIBRARY MANAGEMENT SYSTEM{'-' * 30}+
+    |{" "*85}|
+    |   Read `By Authors like{" "*61}|    
+    |   {random_author}{" "*(91 - (8 + 1 + len(random_author)))}|                          
+    |   ```````  Total books in library {total_books} ```````{" "*(91- (49+len(str(total_books))))}|
+    |   ~Time less classics{" "*63}|
+    |   {classic_book}     by' {classic_author}{" "*(91 - (17+1+len(classic_author)+len(classic_book)))}|
+    |{" "*85}|
+    +{'-' * 30}{'*' * 25}{'-' * 30}+
+        """)

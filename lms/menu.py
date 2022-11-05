@@ -7,11 +7,11 @@ def menu(user=''):
     print(f"""
    +{'-'*60}+
    |            Library Management System                       |
-   | Hi {user}
+   | Hi {user}{" "*(65-(1+8+len(user)))}|
    |    1.Browse books (browse)                                 |
    |    2.Search for the book (find)                            |
    |    3.Add Books (add)                                       |
-        4.Explore (explore)
+   |    4.Explore (explore)                                     |
    |    5.exit (exit)                                           |
    +{'-'*60}+
    | For help enter help, for version information enter version |
@@ -41,7 +41,11 @@ def helpme():
     *help*
     gets you here
     
-    for version information enter version 
+    *explore*
+    get the some great recommendations from the some of the best authors and books
+    in the library
+    
+  for version type version 
     """)
 
 
