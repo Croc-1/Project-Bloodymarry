@@ -5,6 +5,11 @@ import os
 import yaml
 import mysql.connector
 import random
+import secrets
+import json
+import time
+import string
+
 
 USER_TABLE = 'lms_users'
 BOOKS_TABLE = 'books'
@@ -67,8 +72,6 @@ def display(table_name='books'):
     # printing the data form stored in the cursor
     for lines in cursor:
         print(f'{lines[0]:14} {lines[1]:45}by {lines[2]}')
-    # ##############tmp##########################
-    '''fix this out of index is done in following function search_isbn'''
 
 
 def search_on_isbn(isbn_number: str):
@@ -172,6 +175,7 @@ def add_books(verify_user):
                 print(f"{'*'*9}Please enter a number value for the publishing year{'*'*9}")
 
 
+'''
 def book_issue_updater():
     """
     function for making updates to the issue database
@@ -204,6 +208,7 @@ def book_issue_maker():
         cursor.execute("")
     else:
         print(f'issue addition aborted for the book {ask_issue_book}')
+'''
 
 
 def explore():
@@ -246,3 +251,25 @@ def explore():
     |{" "*85}|
     +{'-' * 30}{'*' * 25}{'-' * 30}+
         """)
+
+
+def logit(message=''):
+    """
+    logging the events happened in the LMS
+    :param message:
+    :return:
+    """
+
+    if os.path.exists('logfile.log') is False:
+        with open('logfile.log', 'x') as new_file:
+            pass
+
+    number_id = ' '.join(secrets.choice(string.digits) for _ in range(5))
+    log_data = [time.asctime(time.localtime()), number_id, message]
+
+    with open('logfile.log', 'a') as log_file:
+        json.dump(log_data, log_file)
+        log_file.write('\n')
+
+    return number_id
+
