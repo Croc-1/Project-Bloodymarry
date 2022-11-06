@@ -175,42 +175,6 @@ def add_books(verify_user):
                 print(f"{'*'*9}Please enter a number value for the publishing year{'*'*9}")
 
 
-'''
-def book_issue_updater():
-    """
-    function for making updates to the issue database
-    :return:
-    """
-
-    # cnx = main_cnx()
-    # cursor = cnx.cursor()
-
-    ask_book = input("Enter the book to update its issue record ")
-    var = search_on_title(ask_book)
-
-    if var:
-        pass
-    # update the database using suitable details
-
-
-def book_issue_maker():
-    """
-    making the book issue entry into the database
-    :return:
-    """
-    cnx = main_cnx()
-    cursor = cnx.cursor()
-
-    ask_issue_book = input("Enter the issue book ")
-    value = search_on_title(ask_issue_book)
-    ask_add = input(f"Add {ask_issue_book!r} to issue list")
-    if value and ask_add in ['yes', 'y', 'yep']:
-        cursor.execute("")
-    else:
-        print(f'issue addition aborted for the book {ask_issue_book}')
-'''
-
-
 def explore():
     """
     exploring the data
