@@ -1,0 +1,967 @@
+\documentclass[12pt, a4paper, titlepage, openany]{report}
+
+\usepackage{graphicx}
+\usepackage[]{geometry}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{svg}
+%\usepackage{hyperref}
+
+\renewcommand{\chaptername}{Software CD}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
+\definecolor{keycolor}{cmyk}{0,1,0,0.6}
+\definecolor{mygreen}{rgb}{1, 0, 1}
+\definecolor{mygrey}{rgb}{0, 0.5, 0.5}
+
+\lstset{
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=1,                % start line enumeration with line 1000
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{keycolor},       % keyword style
+  language=Python,                 % the language of the code
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygrey}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{cyan},     % string literal style
+  tabsize=4,	                   % sets default tabsize to 2 spaces
+  title=\lstname
+}
+
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%
+%% Title page
+\begin{titlepage}
+\centering
+{\emph{``There is no programming language, no matter how structured, that will prevent programmers from making bad programs.''} ~ Larry Flon}\par
+\vfill
+
+{\huge  Project \\Library Management System}\par
+
+\vspace{5cm}
+{\LARGE by Kovid Joshi \\Project Manager}\par
+\vspace{10mm}
+{\&}\par
+\vspace{10mm}
+{\LARGE Shikar Joshi \\QC/QA and Publisher}\par
+\vfill
+{\huge \bf \rmfamily DON BOSCO SCHOOL PITHORAGARH}\par
+\vspace{3cm}
+
+\end{titlepage}
+
+%\pagenumbering{gobble}
+
+\section*{\centering \texttt{ Introduction}}
+\addcontentsline{toc}{section}{Introduction}
+\begin{sloppypar}
+	The LMS Project short for the Library management project is a Program written in \verb+python 3.10.7+ language that has a extensive catalog of books that is further extendable to a larger library of books. The Program allows the user to browse the books, by Author, Title, year and ISBN number.
+
+This program is written on \verb+python 3.10.7+ version of python and uses custom and built-in libraries from the python. The connection through the MySQL database is possible through the \verb+MySQL-connector-python+ or \verb+MySQL-connector+ modules downloaded through command line.
+
+\begin{figure}
+\centering
+\includegraphics[height=8.5cm]{python-powered-h.eps}
+\end{figure}
+\footnote{The Python logo belongs to the Python Foundation and is not used for any illicit purpose. Please visit https://www.python.org/community/logos/ }
+\end{sloppypar}
+
+\newpage
+
+\section*{ \centering \texttt{Acknowledgment}}
+\addcontentsline{toc}{section}{Acknowledgment}
+This Project is a combined effect of me and my project partner. We collectively worked and tested the program for bugs and problems, to fix them for the end user. Our collective efforts have made a program that is able work as it claims to be. Further we thank our Teacher for guiding and correcting us. The software we used to make multiple this Project possible have a great contribution. Python development took place over the Jet Brains PyCharm 2022.2.3 that itself is a sufficient IDLE for its task. Further I want to thank my colleague to review this code for any bugs and errors.And Further using the powerful MySQL database system and its software MySQL workbench to complete the query task
+
+Overall this was a interesting and comprehensive task to make such a project and we are grateful to get such a opportunity.
+
+{\flushright Kovid Joshi (Project Manager)} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{System and Feasibility}
+\section{System and Factors of Feasibility}
+\subsection{System Analysis}
+\textcolor{blue}{great}
+Library Management Software is a software that helps a library to manage and list the books in their library. This Project is based on such a problem to solve some problems regarding --
+\begin{itemize}
+\item Listing the books 
+\item Adding the books
+\item Searching the books
+\end{itemize}
+The extensive catalog of books around the world requires a powerful and efficient database system that is maintained and updated regularly by the developers, one such system is MySQL that is fast and powerful. With Integration with python to make the most out of it, this Project is focused in the connectivity of the two.
+
+The LMS comprises of
+\begin{itemize}
+\item Cataloging
+\item Retrieval
+\item Adding
+\end{itemize}
+as one of the core functionality.
+
+Some important terminology regarding the LMS
+\subsection{ISBN}
+ISBN stands for the International Standard Book Number is a commercial book identifier intended to be unique\footnote{https://en.wikipedia.org/wiki/ISBN}. It can be seen in a 10 digit version in old publication and 13 digit in new publication. The ISBN is issued to all the major commercial publication almost all the books have a ISBN. In a book the ISBN looks like a bar-code.
+\begin{figure}
+\centering
+\includegraphics{barcodeisbn.eps}
+\caption{ISBN number in a barcode}
+\end{figure}
+
+\subsection{Cataloging}
+library catalog is a register of all bibliographic items found in a library or group of libraries, such as a network of libraries at several locations\footnote{https://en.wikipedia.org/wiki/Library\_catalog}. The conventional way of cataloging the books are using the card system. Card Catalog is the a methord used for generations, most of the library maintains the card catalog that contains the bibliography of the books. \emph{This program is also made to used as a cataloging program}.
+
+\subsection{Feasibility Study}
+Feasibility of the program can be divided into 
+\begin{description}
+\item[Social] The Library Management project is developed taking care of the usability. Its main objective of this Program is being a usable utility to the Librarians in the world.
+\item[Technical] Technically the Program is based on a command line interface and is lightweight. Thanks to python this program is OS independent. With some packages and MySQL installed this program must not cause problems while execution. Technically this program can run on a very low spec machine and can be used only when all the dependencies are installed. The minimum requirements of this program is 2 GB memory, 10 GB storage(persistent) and a operating system of choice with Python and MySQL installed init. 
+
+The user 
+\item[Financial] This program is based on Open Source Code and is free to use.
+
+\end{description} 
+
+\section{Usability Analysis and features}
+The usability of the program can be described in the following points
+\begin{itemize}
+\item The use of library management system is crucial as it allows the librarian to display and manage the contents of library. Other person who want access to this system can access it by registering it from the website.
+\item The program is made solid out of python and MySQL. Both of the programs are powerful and secure. MySQL being a very popular database management application is used with the very readable python language.
+
+\item Using the \verb+Pypi+ aka \verb+pip+ Library for modules like \verb+PyYAML+ and other bulitins. Python allows the user to configure the MySQL using the configuration file that is a \verb+.yaml+ file which is a popular configuration file. Further modules like \verb+os+, \verb+json+, \verb+secrets+, \verb+string+, \verb+time+, \verb+random+ and \verb+yaml+ from the \verb+PyYAML+ package from the Pypi 
+\item In a Library, management plays a crucial role because of the simplicity of the LMS program it allows the user to maintain a clean record that is easily maintained.
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%-----SOURCE CODE---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get the latest python file for the updates in the document file
+
+\newpage
+\part{Source and Program Structure}
+\section{Source Code}
+
+\subsection{main.py}	
+
+The main file is the integration of all the libraries and is the file that will be executed when running the program \par
+\lstinputlisting{main.py}
+\newpage
+\subsection{SQL utility}
+
+This file is used for the utilities in the SQL database and stores a majority of functions\par
+\lstinputlisting{sql_util.py}
+
+\newpage
+\subsection{Menu and Help}
+
+Menu file stores the menus and helps\par
+\lstinputlisting{menu.py}
+
+\newpage
+\section{About Package \texttt{lms}}
+\begin{figure}
+\centering
+\includegraphics[height=7cm]{Package.eps}
+\caption{Dependency of main.py to the lms package}
+\end{figure}
+
+The Package \verb+lms+ is a custom made package that contains the files for the main execution of the program.
+
+The \verb+lms+ package contains files --
+\begin{enumerate}\item \verb+sql_util.py+ \item \verb+menu.py+ \end{enumerate}
+Both these file contribute to the main file to the core of it. The \verb+menu.py+ is the file that contains all the menu, options and help in it. These are crucial for the working of the program. The user can access using the suitable commands supplied by this file.
+
+The \verb+sql_util.py+ is a very important file because it contains most of the functions that are required by the \verb+main.py+ to work. Further the user's most of the functionality are done by the functions of this file, combining the power of other modules it does the suitable operation for the user such that the user get the desired feedback.
+
+\section{SQL Commands Imported}
+\subsection{Users database}
+\lstinputlisting[language=SQL]{users_database.sql}
+\newpage
+\subsection{Books database}
+\lstinputlisting[language=SQL]{books_database.sql}
+%%%%%%%%%%%%%%%%--------SOURCE CODE-------%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Data Flow of the Program}
+Data flow diagram for the program is --
+\begin{itemize}
+\item Program execution takes multiple steps to reach the final of the program and data is traveled from the python to MySQL as a query or MySQL to python as a result. Further the data execution takes place from the main menu where the user types a certain output to execute a particular function or a query in MySQL to fetch data.
+
+\item Program first asks the data for the credentials to put forward the main menu i.e. to login to the program. The user has to enter his credentials to get access to the MySQL database and use the commands in the main menu. Other wise if the credentials are wrong the user has is thrown out of the program after 3 wrong attempt to verify his credentials. Further more the person has to contact the administrator of the MySQL database who manages the users data is to contacted to register to the program user base, this is done to ensure to keep out any unwanted users from using the database.
+
+\item After a successful login attempt the user is prompted with the main menu of the program. Further he or she can access the data or add data to the tables of MySQL, and can display using the \verb+explore+ command in the program.
+
+\item The user has multiple options to choose like search will retrieve the data from the MySQL and display it to the user, add will add the data to the books database here.
+
+The details regarding the database and its structure is given as follows
+\item This project comprises of multiple data flow model used in System Development Life Cycle. The Project uses a hybrid data flow model that comprises of the 
+\begin{itemize}
+\item Waterfall
+\item Circular
+\end{itemize}
+\item The Circular model is used in the beginning of the program and is generally used for a login screen where a user is looped through a cycle of operations when satisfied in this program enters to the waterfall model where the user is popped with the menu and options to choose from. The options and menu that can be selected by typing it into the command line.
+
+\end{itemize}
+% \includegraphics[height=30mm]{}
+\newpage
+
+\subsection {System Design}
+
+\includegraphics{qw.eps}
+
+\newpage
+
+\subsection{SQL Database Structure}
+The SQL tables are arranges in the following way such that the tables are accessed using the same database.
+
+There are 2 tables in work with the program.
+\begin{itemize}
+\item lms\_users
+\item books
+\end{itemize} 
+
+Both these tables have their own requirements in the program and further in future many others might be added to the database for multiple functionality.
+
+The \verb+lms_user+ table is the table that stores the user's database information the basic description of the table is as follows
+\begin{verbatim}
+mysql> desc lms_users;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| name     | varchar(50) | YES  |     | NULL    |       |
+| password | varchar(23) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+\end{verbatim}
+
+The \verb+books+ database is the table that is used to store the all the books and authors in the table. The books and the author information in this table is concise and allows the user to view or add to this table. The simple description from MySQL is as follows
+\begin{verbatim}
+mysql> desc books;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| isbn      | varchar(20)  | NO   | PRI | NULL    |       |
+| book_name | varchar(200) | YES  |     | NULL    |       |
+| author    | varchar(40)  | YES  |     | NULL    |       |
+| published | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+\end{verbatim} 
+Further in the testing phase of the program the data is added to the \verb+test_books+ table for convenience in collective data integrity of the main table which is \verb+books+.
+\newpage
+\begin{verbatim}
+mysql> desc test_books;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| isbn      | varchar(50)  | YES  |     | NULL    |       |
+| book_name | varchar(100) | YES  |     | NULL    |       |
+| author    | varchar(20)  | YES  |     | NULL    |       |
+| published | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+\end{verbatim}
+\newpage
+
+\subsection{Program Dependency tree}
+
+the tree of the directory structure is given above. The \verb+main.py+ file is the main file that executes the program the user has to run this file in order to get the program running. Other than the main file other custom made library directory called as lms short hand for library management system is used for further working of the program. another file called as \verb+sql_util.py+ and \verb+menu.py+ are the files that provide many functionality to the program to work. The \verb+menu.py+ file is based on the menu and help, the \verb+sql_util.py+ file one of the very important file in the program that allows most of the functions used in the \verb+main.py+ file and for further logging function is also provided. 
+
+Getting out of the \verb+lms+ directory we can see the \verb+data+ directory provides and stores the information regarding the configuration and log data. The \verb+cnx_data.yml+ stores the configuration data for the MySQL user in MySQL like password, user, database etc can be stored in this file, other file called as logfile.log is used to store the log data of the program.
+The venv is a file for the virtual environment that allows us to include packages in a septate environment away from the base interpreters installed packages that might conflict with the other packages or setting up a different environment for the program. 
+\par
+\begin{figure}
+\centering
+\includegraphics{file_structure.eps}
+\caption{Directory Structure}
+\label{file_struct}
+\end{figure}
+
+\newpage
+\part{Post Updates}
+
+\section{Future Updates}
+The following program like the rest of the programs are not prefect. The following program can be improved in feature and security.
+\begin{itemize} 
+\item This program is vulnerable to a SQL injection where a hacker can inject a SQL to alter, delete, view and do all sorts of things with the SQL database. The solution of this problem is that the given program takes a filtered input of the things from the users side.
+\item The program can be made online in cloud, rather than running the SQL locally by setting up a server that can act as a universal server where database can be accessed and data can be retrieved 
+\item Searching using the regular expression can improve the query result and can make it more useful in searching over the words from the database or files.
+\item further advanced commands to link tables in MySQL can improve the overall functionality of the program and can truly bring the concept of foreign key to work.
+
+\end{itemize}
+
+%?%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%CASE STudy%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{Case Study}
+\section{Login}
+The program is allows only specific people to login or use the LMS. This is done to prevent unauthorized access to the database and prevent any unwanted changes in the database. Further the data can be stored (added) by authorized people only. It asks the user password and name. The user is given 3 chances to present the correct user name and password that is stored inside the database itself. The figure below we can see that the name is a case insensitive but the password is sensitive. Further we are greeted by `Hi' and name in the main screen of the program. \par
+\makebox{}{
+\begin{verbatim}
+Enter your name kate stewart
+Enter your password kate123
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+   
+ ==>
+    
+\end{verbatim}}
+
+For asking for credentials in the following page user has to provide credentials for further changes in the addition of the books in the books database that require further verification of the user, as being a very sensitive work that can only be modified by the MySQL side.
+further for wrong credentials the program will not allow the user to add data to the database.
+\framebox{}{
+\begin{verbatim}
+
+
+ ==> add
+To Add books you have to verify that it's you!
+Please enter your name kate stewart
+verify your password kate123
+Enter the following details of the book exit to leave 
+
+Enter the isbn number 90990323134
+Enter the book name The Robin Hood
+Enter the Author of the book 'The Robin Hood' Helber Osbone
+Enter the year of publishing 2001
+*Successfully* added the book to the library thanks for the contribution 
+help this project to grow.
+
+Enter the following details of the book exit to leave 
+
+Enter the isbn number exit
+ ==> add
+To Add books you have to verify that it's you!
+Please enter your name kate stewart
+verify your password alkdjsf
+Sorry the credentials are wrong
+ ==> 
+
+\end{verbatim}
+}
+
+\newpage
+
+\section{Running}
+The program is based on waterfall model there after the Circular model encountered in the login screen where the program asks for the verification of the user.
+
+After the program is started and the user is logged in to the program  
+the user in prompted with a welcome screen or a home page. The user can then select the usable options in the menu and accordingly do the work.
+
+The program menu offers following features in the listing option
+\begin{enumerate}
+\item Browse
+\item Search
+\item Add
+\item Explore
+\item Exit
+\end{enumerate}
+other than these options the user can also access the \emph{help} and \emph{version} options respectively. Also a menu option is available that prints the value of the text listed below.
+
+\fbox{}{
+
+\begin{verbatim}
+==> menu
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi                                                         |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+ ==> 
+
+\end{verbatim}
+}
+The menu of the program can be explicitly called, but this time the user name after the word hi is not displayed. Further a person can access the items thereafter buy typing it in the prompt below.
+
+The browse -- This option provides the user to browse the extensive library of the LMS. It shows the user that ISBN of the book, its title, author name and published date. further this can be used to view or look at the books in the library.
+
+
+\fbox{}{
+
+\begin{verbatim}
+==> browse 
+0073406732     The Art of Public Speaking, 11th Edition     by Stephen Lucas
+0340951451     It                                           by Stephen King
+0393919390     Essentials of Geology (Fourth Edition)       by Stephen Marshak
+0451526937     King Lear(Signet Classics)                   by William Shakespeare
+0553380168     A Brief History of Time                      by Stephen Hawking
+0809063492     KING                                         by Harvard Sitkoff
+1555838537     Stone Butch Blues: A Novel                   by Leslie Feinberg
+1580054838     Fast Times in Palestine                      by Pamela J. Olson
+9780143333623  Grandma's Bag of Stories                     by Sudha Murty
+9780385086950  Carrie                                       by Stephen King
+9780717260591  The Cat in the Hat                           by Dr Seuss
+9781847490599  Anna Karenina                                by Leo Tolstoy
+ ==> 
+
+\end{verbatim}
+}
+
+The find -- This option is most extensive of all the options and take a good use of the powerful MySQL system using the connector to connect to the MySQL database. Further it allows the user to find the book in the database using either its title, author or ISBN. 
+
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> 
+\end{verbatim}
+}
+
+The user can then search on the basis of the ISBN, author or name of the book that he or she wants to find. Then he can type the rest and make the program to find the book in the database.
+\\
+
+
+\textsc{ISBN Searching} \\
+ISBN stands for International Standard Book number. This number is issued to books, journals, articles and magazines. unique number is used to identify a book either in a book store or in a library. The ISBN number can be categorized in 10 digits or 13 digits, The program is made in such a way that it allows both the formats to work in its environment.  
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> isbn      
+Enter the ISBN number of the book 0809063492
+Found
+
+            ISBN: 0809063492
+            Title: KING
+            Author: Harvard Sitkoff
+            Published: 2009
+ ==> 
+
+\end{verbatim}
+
+}
+
+\textsc{Author Search}\\
+This option is used to find the books by a particular author in the library database. The user has to provide the author's name and the database fetches the result of all the books that belongs to the author. Here also the program uses the powerful techniques to integrate the MySQL to get the result of the desired query. Asking user for the author name either in capital or small as the program turns the string into a title case and then asks for the query, the user is then given a response of the tile and publication date of the book by the author.
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> author
+Enter the author to search stephen king
+Books by Stephen King
+Title -----------------------------------Publishing date
+It                                        2007
+Carrie                                    1974
+ ==> 
+
+\end{verbatim}
+}
+
+\textsc{Title Search}\\
+This search is used to search details of a particular books title it is used for further finding the books whose only partial titles were like only a part of title is known. Here the source code utilizes the potential of MySQL where ``LIKE'' keyword is used. This allows the user to enter the first matching characters and then the return result is based on the result found by the program. 
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> name
+Enter the Title of the book the
+Found
+The Art of Public Speaking, 11th Edition 2011, by Stephen Lucas
+The Cat in the Hat                       1957, by Dr Seuss
+ ==>
+\end{verbatim}
+}
+
+The query is case insensitive i.e. the result is based on characters not on the case of the letters. This type of search is very useful and allows the user to search the database much usefully.
+
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> name
+Enter the Title of the book fast tim
+Found
+Fast Times in Palestine                  2013, by Pamela J. Olson
+ ==> 
+
+
+\end{verbatim}
+
+}
+
+\newpage
+
+\section{Working}
+\subsection{Case 1: Adding the books to the books database}
+The data can be added to the books database using the LMS program. By selecting the add option in the main menu a person will get into the add menu of the program. Then the user has to enter his or her credentials to verify that it is him who is adding to the program. After conforming the credentials the person can add the data to the MySQL by answering the questions regarding the new book. The addition command is made on loop so \emph{ a person can add multiple books without getting out of the program} 
+\setlength\fboxrule{1pt}
+\framebox{}{
+\begin{verbatim}
+Enter your name kate stewart
+Enter your password kate123
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> add
+To Add books you have to verify that it's you!
+Please enter your name kate stewart
+verify your password kate123
+Enter the following details of the book exit to leave 
+
+Enter the isbn number 90990323134
+Enter the book name The Robin Hood
+Enter the Author of the book 'The Robin Hood' Helber Osbone
+Enter the year of publishing 2001
+*Successfully* added the book to the library thanks for the contribution 
+help this project to grow.
+
+Enter the following details of the book exit to leave 
+
+Enter the isbn number exit
+ ==> 
+
+
+\end{verbatim}
+
+}
+
+\subsection{Case 2: Browsing and Exploring the library database}
+The LMS program is made for better provide a friendly user experience for show casing the books from the library by picking the author and displaying it to the user. A user can type explore or browse to see books from the library
+
+\framebox{}{
+\begin{verbatim}
+Enter your name kate stewart
+Enter your password kate123
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> browse
+0073406732     The Art of Public Speaking, 11th Edition     by Stephen Lucas
+0340951451     It                                           by Stephen King
+0393919390     Essentials of Geology (Fourth Edition)       by Stephen Marshak
+0451526937     King Lear(Signet Classics)                   by William Shakespeare
+0553380168     A Brief History of Time                      by Stephen Hawking
+0809063492     KING                                         by Harvard Sitkoff
+1555838537     Stone Butch Blues: A Novel                   by Leslie Feinberg
+1580054838     Fast Times in Palestine                      by Pamela J. Olson
+9780143333623  Grandma's Bag of Stories                     by Sudha Murty
+9780385086950  Carrie                                       by Stephen King
+9780717260591  The Cat in the Hat                           by Dr Seuss
+9781847490599  Anna Karenina                                by Leo Tolstoy
+ ==> explore
+
+    +------------------------LIBRARY MANAGEMENT SYSTEM-------------------+
+    |                                                                    |
+    |   Read `By Authors like                                            |    
+    |   Dr Seuss                                                         |                          
+    |   ```````  Total books in library 12 ```````                       |
+    |   ~Time less classics                                              |
+    |   A Brief History of Time     by' Stephen Hawking                  |
+    |                                                                    |
+    +------------------------*************************-------------------+
+        
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> author
+Enter the author to search Stephen king
+Books by Stephen King
+Title -----------------------------------Publishing date
+It                                        2007
+Carrie                                    1974
+ ==> 
+\end{verbatim}
+}
+The exploring and search options are extensive and allows the person to search and explore\footnote{The explore option is altered here for the sake of output and differs from the real output in the main file} the database of the library.
+
+\subsection{Case 3: Using the Different Searches}
+The program allows the user to search in multiple ways in the SQL database. The available options are 
+\begin{enumerate}
+\item Search using the ISBN
+\item Search using the Author name
+\item Search using the Title of the Book
+\end{enumerate}
+
+Using the find command in the program a person can access the database for search using any of the following above options. The different search options come in handy in case the person is partially aware of the Book.
+
+\begin{verbatim}
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> isbn
+Enter the ISBN number of the book 9781847490599
+Found
+
+            ISBN: 9781847490599
+            Title: Anna Karenina
+            Author: Leo Tolstoy
+            Published: 1878
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> author
+Enter the author to search Dr Seuss
+Books by Dr Seuss
+Title -----------------------------------Publishing date
+The Cat in the Hat                        1957
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> name
+Enter the Title of the book the
+Found
+The Art of Public Speaking, 11th Edition 2011, by Stephen Lucas
+The Cat in the Hat                       1957, by Dr Seuss
+ ==> 
+
+
+\end{verbatim}
+
+\subsection{Case 4: using the help}
+Help is a very important command used by anyone using the program. The help command is what is used to display the help in the program.
+\begin{verbatim}
+Enter your name kate stewart
+Enter your password kate123
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> help  
+
+    USER HELP
+    
+    *browse*
+    Browse helps the user to browse the extensive catalog of books from
+    the LMS database.
+    
+    Search
+    search comprises of the multiple type of search in the books database
+    this options has 3 sub options inside it 
+        1.ISBN search
+        2.Author search
+        3.Search by Title of the Book
+        
+    *add*
+    Add is a option for people who want to add data to the database for 
+    making new books in the library catalog
+    
+    *help*
+    gets you here
+    
+    *explore*
+    get the some great recommendations from the some of the best authors 
+    and books in the library
+    
+  for version type version 
+    
+ ==> 
+
+\end{verbatim}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%----EXCEPTION HANDLING-------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exception Handling}
+For every wrong command the program tells the user to write a better command rather than it already is
+
+\framebox{}{
+
+\begin{verbatim}
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi                                                         |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> exi 
+I don't recognise that need help type help or menu
+ ==> exit
+Exiting the program
+
+\end{verbatim}
+}
+
+
+for any option in the user side any exceptions are either handled using the \verb+try+ and \verb+except+ block and to prevent any input error the use of numeric datatype is limited. The inputs are taken in the string form to minimize the data handling error and is type caste to \verb+int+ or other format using the suitable function.
+
+Further the program is giving messages for exception that occurs while the program is running to prevent crash and to ensure the smooth functioning of the program.
+
+\framebox{}{
+
+\begin{verbatim}
+Enter your name david bechem
+Enter your password beck123
+ Invalid user, wrong password or name
+please try again or register as a new user
+you have 2 tries
+Enter your name 
+
+\end{verbatim}
+}
+ 
+above shows the message that is shown in the file when the user is entering a wrong password or name, the program gives him or her three chances to correctly write the input.
+
+\framebox{}{
+\begin{verbatim}
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> author
+Enter the author to search jack
+Author 'Jack' not found
+Please check for any typos in the author name and try again
+ ==> 
+
+\end{verbatim}
+
+}
+
+The basic search also gives an error if not found, when the user enters a author which does not exists then the program tells the user to check for any spelling mistakes and try again.
+The add command is a sensitive option that requires a lot of control over the program input from the user in case where the user has entered the wrong thing in the date option the user is prompted with the error message. Also if that field is left blank then also, the user is prompted with the message to prevent the further execution of the program to cause error on the MySQL server side.
+
+\framebox{}{
+\begin{verbatim}
+ ==> add
+To Add books you have to verify that it's you!
+Please enter your name kate stewart
+verify your password kate123
+Enter the following details of the book exit to leave 
+
+Enter the isbn number 99021314
+Enter the book name    
+Enter the Author of the book '' 
+Enter the year of publishing 
+ *********SORRY! there was an error, sorry for the inconvenience *********
+*********Please enter a number value for the publishing year*********
+Enter the following details of the book exit to leave 
+
+\end{verbatim}
+
+} 
+
+\newpage
+
+
+\section{Overall Execution}
+A look at the general execution of the program\footnote{The output of the program here is changed to fit the typesetting the document. The out put is modified}
+\framebox{}{
+\begin{verbatim}
+Enter your name kate stewart
+Enter your password kate123
+
+   +------------------------------------------------------------+
+   |            Library Management System                       |
+   | Hi Kate Stewart                                            |
+   |    1.Browse books (browse)                                 |
+   |    2.Search for the book (find)                            |
+   |    3.Add Books (add)                                       |
+   |    4.Explore (explore)                                     |
+   |    5.exit (exit)                                           |
+   +------------------------------------------------------------+
+   | For help enter help, for version information enter version |
+   +------------------------------------------------------------+
+    
+ ==> browse
+0073406732     The Art of Public Speaking, 11th Edition   by Stephen Lucas
+0340951451     It                                         by Stephen King
+0393919390     Essentials of Geology (Fourth Edition)     by Stephen Marshak
+0451526937     King Lear(Signet Classics)                 by William Shakespeare
+0553380168     A Brief History of Time                    by Stephen Hawking
+0809063492     KING                                       by Harvard Sitkoff
+1555838537     Stone Butch Blues: A Novel                 by Leslie Feinberg
+1580054838     Fast Times in Palestine                    by Pamela J. Olson
+9780143333623  Grandma's Bag of Stories                   by Sudha Murty
+9780385086950  Carrie                                     by Stephen King
+9780717260591  The Cat in the Hat                         by Dr Seuss
+9781847490599  Anna Karenina                              by Leo Tolstoy
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> author
+Enter the author to search stephen king
+Books by Stephen King
+Title -----------------------------------Publishing date
+It                                        2007
+Carrie                                    1974
+ ==> add
+To Add books you have to verify that it's you!
+Please enter your name kate stewar
+verify your password kate
+Sorry the credentials are wrong
+ ==> explore
+
+    +------------------------LIBRARY MANAGEMENT SYSTEM------------------------+
+    |                                                                         |
+    |   Read `By Authors like                                                 |    
+    |   Sudha Murty                                                           |                          
+    |   ```````  Total books in library 12 ```````                            |
+    |   ~Time less classics                                                   |
+    |   A Brief History of Time     by' Stephen Hawking                       |
+    |                                                                         |
+    +------------------------*************************------------------------+
+        
+ ==> find
+
+        SEARCH mode
+        search by -- ISBN(isbn), author(author) or name(name)
+        -> name
+Enter the Title of the book grandma
+Found
+Grandma's Bag of Stories                 2015, by Sudha Murty
+ ==> exit
+Exiting the program
+
+\end{verbatim}
+}
+
+\newpage
+
+\section{Logging the Actions}
+The program is also made with another feature other than all listed above to make a log of the actions that happen in the program by the user. The format of the log file is custom where it stores different like given below is a real log file from the programs directory 
+
+\framebox{}{
+
+\begin{verbatim}
+["Sun Nov  6 19:40:29 2022", "8 2 2 9 1", "Logged in!"]
+["Sun Nov  6 19:41:31 2022", "7 6 3 1 2", "searching for a book by its ISBN"]
+["Sun Nov  6 19:41:53 2022", "2 4 6 5 6", "Searching on the basis of author "]
+["Sun Nov  6 19:42:10 2022", "4 8 1 6 3", "Exiting the program "]
+["Mon Nov  7 16:18:28 2022", "2 5 3 5 7", "Logged in!"]
+["Mon Nov  7 16:40:23 2022", "7 6 5 0 0", "Adding to the database"]
+["Mon Nov  7 16:40:37 2022", "6 4 9 4 1", "Adding to the database"]
+["Mon Nov  7 17:06:46 2022", "0 5 1 2 9", "displaying the books"]
+["Mon Nov  7 17:20:55 2022", "1 3 9 3 7", "searching for a book by its ISBN"]
+["Mon Nov  7 17:24:11 2022", "5 7 0 5 8", "Exiting the program "]
+["Mon Nov  7 17:24:20 2022", "3 9 4 9 6", "Logged in!"]
+["Mon Nov  7 17:25:24 2022", "8 0 2 2 0", "Logged in!"]
+["Mon Nov  7 17:25:33 2022", "2 3 4 9 7", "searching for a book by its ISBN"]
+["Mon Nov  7 17:35:52 2022", "5 6 6 6 7", "Searching on the basis of author "]
+["Mon Nov  7 17:56:57 2022", "2 5 4 6 3", "searching for a book by title"]
+["Mon Nov  7 17:57:23 2022", "8 6 9 2 2", "displaying the books"]
+["Mon Nov  7 17:57:33 2022", "0 2 4 7 6", "searching for a book by title"]
+["Mon Nov  7 17:58:52 2022", "8 3 3 5 4", "searching for a book by title"]
+["Mon Nov  7 18:46:47 2022", "0 2 4 3 7", "Exiting the program "]
+["Mon Nov  7 18:54:56 2022", "6 9 8 5 3", "Login Failed"]
+["Mon Nov  7 18:56:58 2022", "9 6 0 9 9", "Logged in!"]
+["Mon Nov  7 18:57:15 2022", "8 3 1 4 4", "searching for a book by its ISBN"]
+["Mon Nov  7 18:57:25 2022", "4 7 3 3 9", "Searching on the basis of author "]
+["Mon Nov  7 18:57:41 2022", "6 5 9 2 6", "Searching on the basis of author "]
+\end{verbatim}
+}
+
+The above is a log of a real file that can be seen to tell that the user logged in, actions done by the user and further telling the time and a unique id for a particular log is for \emph{finding a particular log in the log file}. Further a unique random number is also made into the log script to make searching of a particular log easy. In the souce code of this file the writing is done through \verb+json+ module.
+
+\newpage
+\chapter*{Software CD}
+\addcontentsline{toc}{chapter}{Software CD}
+System Requirements -- 
+
+\begin{tabular}{|c|p{10cm}|}
+\hline
+System Require & Remark \\
+\hline
+OS & Any OS \\
+\hline
+Hardware Requirements & At least 2 GB RAM, 10 GB storage\\
+\hline
+Required Software & Python 3+ configured to path version, MySQL 5+ and Pypi's PyYAML installed using the pip by executing the following command \verb+pip install PyYAML+ or by visiting the Pypi.org website and doing a manual installation\\
+
+\hline
+\end{tabular}
+
+
+
+
+\end{document}
+
+
+
+
