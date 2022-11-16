@@ -1,5 +1,5 @@
 """
-mysql user credentials
+mysql interaction and other main functions for the main.py file.
 """
 import os
 import yaml
@@ -10,12 +10,11 @@ import json
 import time
 import string
 
-
-USER_TABLE = 'lms_users'
-BOOKS_TABLE = 'books'
-DEBUG_TABLE = 'test_books'
-ISSUE_TABLE = 'issue_list'
-
+# -----------TABLE NAME--------------
+USER_TABLE = 'lms_users'    # allowed users table
+BOOKS_TABLE = 'books'       # main library books catalog table
+DEBUG_TABLE = 'test_books'      # table used temporarily for testing 
+# ------------------------------------
 
 def main_cnx(user_id='user'):
     """
@@ -23,14 +22,20 @@ def main_cnx(user_id='user'):
     cnx_data.yml file
     """
     # changing to the data directory
-    if os.path.exists('cnx_data.yml') is False:
-        # os.chdir('..')
-        os.chdir('data')
-    with open('cnx_data.yml') as data_file:
-        data = yaml.load(data_file, yaml.SafeLoader)
+    try:
+        if os.path.exists('cnx_data.yml') is False:
+            # os.chdir('..')
+            os.chdir('data')
+        with open('cnx_data.yml') as data_file:
+            data = yaml.load(data_file, yaml.SafeLoader)
 
-    cnx = mysql.connector.connect(**data[user_id])
-    return cnx
+        cnx = mysql.connector.connect(**data[user_id])
+        return cnx
+    except FileNotFoundError:
+        # if the data directory is not found in the current directory
+        # print that the
+        print("FATAL ERROR :The directory 'data' does not exists please recover the data directory")
+        exit()
 
 
 def pass_checker(user_data):
@@ -53,6 +58,7 @@ def pass_checker(user_data):
     if user_data in database_data:
         return True
     else:
+        # return false as the value if the password is wrong
         return False
 
 
@@ -89,8 +95,13 @@ def search_on_isbn(isbn_number: str):
         if not data:
             print(f"Sorry no book is found having ISBN {isbn_number}")
         else:
+            # if the book is found print found
             print('Found')
-            print(data)
+            print(f"""
+            ISBN: {data[0][0]}
+            Title: {data[0][1]}
+            Author: {data[0][2]}
+            Published: {data[0][3]}""")
     else:
         print("Please enter a number to search")
 
@@ -118,21 +129,29 @@ def search_on_author(author_name: str):
 
 def search_on_title(book_name: str):
     """
-    searching the books in the database using the
+    searching the books in the database using the sql query like functionality
     :param book_name:
     :return:
     """
 
     cnx = main_cnx()
     cursor = cnx.cursor()
+
+    # executing the query for searching the books database using the title of the book
     cursor.execute(f"SELECT book_name, published, author from {BOOKS_TABLE} where book_name like {book_name+'%'!r}")
+
+    # get the returned data and store it in the data variable
     data = cursor.fetchall()
+
+    # if there is data in the variable data
     if data:
         print("Found")
         for books in data:
             print(f"{books[0]:40} {books[1]}, by {books[2]}")
 
         return True
+
+    # else if the value is not found give this message
     else:
         print(f"Not Found with title {book_name!r}")
         return False
@@ -177,10 +196,11 @@ def add_books(verify_user):
 
 def explore():
     """
-    exploring the data
+    exploring the data of the LMS database
     :return:
     """
 
+    # initiate the connection
     cnx = main_cnx()
 
     cursor = cnx.cursor()
@@ -204,7 +224,8 @@ def explore():
     classic_author = old[classic_time][1]
     total_books = times[0][0]
 
-    print(fr"""
+    # printing the result in Command line using the formatted string
+    print(f"""
     +{'-' * 30}LIBRARY MANAGEMENT SYSTEM{'-' * 30}+
     |{" "*85}|
     |   Read `By Authors like{" "*61}|    
@@ -219,21 +240,27 @@ def explore():
 
 def logit(message=''):
     """
-    logging the events happened in the LMS
-    :param message:
-    :return:
+    logging the events happened in the LMS in the separate file
+    called logfile
+    :param message: str
+    :return: number_id -> str
     """
 
+    # if the file logfile.log does not exist create the new file named logfile.log
     if os.path.exists('logfile.log') is False:
-        with open('logfile.log', 'x') as new_file:
+        with open('logfile.log', 'x') as _:
             pass
 
+    # generating the random number
     number_id = ' '.join(secrets.choice(string.digits) for _ in range(5))
+    # making the log data
     log_data = [time.asctime(time.localtime()), number_id, message]
 
+    # using the json to dump the list into a file and adding the new line after each dump
     with open('logfile.log', 'a') as log_file:
+        # dumping the list of the log data to the log file
         json.dump(log_data, log_file)
+        # adding the new line at the end of the file
         log_file.write('\n')
 
     return number_id
-
