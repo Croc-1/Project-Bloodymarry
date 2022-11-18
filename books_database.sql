@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: people
 -- ------------------------------------------------------
--- Server version	8.0.31-0ubuntu0.22.04.1
+-- Server version	8.0.31-0ubuntu2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES ('0073406732','The Art of Public Speaking, 11th Edition','Stephen Lucas',2011),('0340951451','It','Stephen King',2007),('0393919390','Essentials of Geology (Fourth Edition)','Stephen Marshak',2012),('0451526937','King Lear(Signet Classics)','William Shakespeare',1998),('0553380168','A Brief History of Time','Stephen Hawking',1998),('0809063492','KING','Harvard Sitkoff',2009),('1555838537','Stone Butch Blues: A Novel','Leslie Feinberg',2004),('1580054838','Fast Times in Palestine','Pamela J. Olson',2013),('9780143333623','Grandma\'s Bag of Stories','Sudha Murty',2015),('9780385086950','Carrie','Stephen King',1974),('9780717260591','The Cat in the Hat','Dr Seuss',1957);
+INSERT INTO `books` VALUES ('0073406732','The Art of Public Speaking, 11th Edition','Stephen Lucas',2011),('0340951451','It','Stephen King',2007),('0393919390','Essentials of Geology (Fourth Edition)','Stephen Marshak',2012),('0451526937','King Lear(Signet Classics)','William Shakespeare',1998),('0553380168','A Brief History of Time','Stephen Hawking',1998),('0809063492','KING','Harvard Sitkoff',2009),('1555838537','Stone Butch Blues: A Novel','Leslie Feinberg',2004),('1580054838','Fast Times in Palestine','Pamela J. Olson',2013),('9780143333623','Grandma\'s Bag of Stories','Sudha Murty',2015),('9780385086950','Carrie','Stephen King',1974),('9780717260591','The Cat in the Hat','Dr Seuss',1957),('9781847490599','Anna Karenina','Leo Tolstoy',1878);
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-30 22:11:10
+-- Dump completed on 2022-11-18 23:10:29
