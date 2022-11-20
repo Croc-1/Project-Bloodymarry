@@ -1,7 +1,7 @@
 
-import lms.sql_util
-import lms.menu
-# import getpass
+import lms.sql_util     # main functions regarding SQL and mislaneous
+import lms.menu   # displaying menu and help
+# import getpass  # can be used in future releases
 
 i = 0
 
